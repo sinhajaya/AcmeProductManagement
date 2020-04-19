@@ -40,7 +40,7 @@ export class ProductListComponent implements OnInit {
             releaseDate: 'May 18, 2019',
             description: 'Curved claw steel hammer',
             price: 8.99,
-            starRating: 4.8,
+            starRating: 2.8,
             imageUrl: 'assets/images/hammer.png'
         }
     ];
@@ -62,5 +62,9 @@ export class ProductListComponent implements OnInit {
         filterBy = filterBy.toLocaleLowerCase();
         return this.products.filter((product: IProduct) =>
             product.productName.toLocaleLowerCase().indexOf(filterBy) !== -1);
+    }
+
+    onRatingClicked(message: string): void {
+        this.pageTitle = 'Product List: ' + message;
     }
 }
