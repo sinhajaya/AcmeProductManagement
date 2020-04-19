@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IProduct } from './product';
+import { ProductService } from './product.service';
 
 @Component({
     selector: 'pm-products',
@@ -14,40 +15,18 @@ export class ProductListComponent implements OnInit {
     showImage = false;
     
     _listFilter: string;
-    get listFilter(): string{
+    get listFilter(): string {
         return this._listFilter;
     }
-    set listFilter(value: string){
+    set listFilter(value: string) {
         this._listFilter = value;
         this.filteredProducts = this.listFilter ? this.performFilter(this.listFilter) : this.products;
     }
     filteredProducts: IProduct[];
-    products: IProduct[] = [
-        {
-            productId: 2,
-            productName: 'Garden Cart',
-            productCode: 'GDN-0023',
-            releaseDate: 'March 18, 2019',
-            description: '15 gallon capacity rolling garden',
-            price: 32.99,
-            starRating: 4.2,
-            imageUrl: 'assets/images/garden_cart.png'
-        },
-        {
-            productId: 5,
-            productName: 'Hammer',
-            productCode: 'TBX-0048',
-            releaseDate: 'May 18, 2019',
-            description: 'Curved claw steel hammer',
-            price: 8.99,
-            starRating: 2.8,
-            imageUrl: 'assets/images/hammer.png'
-        }
-    ];
+    products: IProduct[];
 
-    constructor() {
-        this.filteredProducts = this.products;
-        this.listFilter = 'cart';
+    constructor(private productService: ProductService) {
+
     }
 
     toggleImage(): void {
@@ -55,7 +34,8 @@ export class ProductListComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        console.log('In onit');
+        this.products = this.productService.getProducts();
+        this.filteredProducts = this.products;
     }
 
     performFilter(filterBy: string): IProduct[]{
